@@ -3,117 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulación de Quema de Gas en Pozo Petrolero</title>
+  <title>Simulación de Quema de Gas en MECHEROS de Pozo Petroleros</title>
+
+  <!-- ======= ESTILOS PRINCIPALES ======= -->
   <style>
-    /* Estilos generales */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       line-height: 1.6;
       margin: 0;
-      padding: 20px;
-      background-color: #f3f4f6;
+      padding: 0;
+      background: linear-gradient(120deg, #f0f4f8 0%, #d9e2ec 100%);
       color: #333;
     }
-    
+
     .container {
       max-width: 1200px;
-      margin: 0 auto;
-      background-color: #f3f4f6;
+      margin: 40px auto;
+      background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
     }
-    
+
     h1 {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 28px;
+      font-weight: 700;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      color: #1e3a8a;
     }
-    
+
     h2 {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1e3a8a;
+      border-left: 5px solid #3b82f6;
+      padding-left: 10px;
     }
-    
+
     h3 {
       font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1e3a8a;
     }
-    
+
+    /* ======= Diseño de la cuadrícula principal ======= */
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
+      grid-template-columns: 1fr ; /* Define el numero de columnas (1fr 1fr 1fr serian 3 columnas) */
+      gap: 24px;
+      margin-bottom: 24px;
     }
-    
     @media (max-width: 768px) {
       .grid {
         grid-template-columns: 1fr;
       }
     }
-    
+
     .card {
-      background-color: white;
+      background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ======= Ajuste de la sección de controles a 7 columnas ======= */
     .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr)); /* Define el numero de columnas (7 serian 7 columnas para el panel de los deslizantes) */
+      gap: 20px;
     }
-    
+
     .control-group {
       margin-bottom: 8px;
     }
-    
+
     .control-group label {
       display: block;
       font-size: 14px;
       font-weight: 500;
       margin-bottom: 4px;
+      color: #374151;
     }
-    
+
     input[type="range"] {
       width: 100%;
+      accent-color: #3b82f6;
+      cursor: pointer;
     }
-    
+
     ul {
       list-style-type: none;
       padding-left: 0;
       margin-top: 4px;
     }
-    
+
     li {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      color: #374151;
     }
-    
+
     .info-box {
-      background-color: #f8f9fa;
+      background-color: #f9fafb;
       border-radius: 4px;
-      padding: 8px;
-      margin-top: 8px;
+      padding: 10px;
+      margin-top: 12px;
       font-size: 14px;
+      border: 1px solid #e5e7eb;
     }
-    
+
     .info-box p {
-      margin: 4px 0;
+      margin: 6px 0;
     }
-    
+
     .info-box-title {
       font-weight: bold;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       border-bottom: 1px solid #ddd;
       text-align: center;
+      color: #1e3a8a;
     }
-    
-    /* Estilos para las visualizaciones */
+
     .visualization {
       position: relative;
       width: 100%;
@@ -123,24 +142,24 @@
       overflow: hidden;
       margin-bottom: 8px;
     }
-    
+
     .vista-lateral {
-      background-color: #87CEEB; /* Cielo */
+      background-color: #cce4f7;
     }
-    
+
     .vista-superior {
-      background-color: #E8F4F8;
+      background-color: #eef6fa;
     }
-    
+
     .suelo {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 100px;
-      background-color: #8B4513; /* Marrón */
+      background-color: #8B4513;
     }
-    
+
     .mechero {
       position: absolute;
       left: 33%;
@@ -148,7 +167,7 @@
       width: 40px;
       z-index: 2;
     }
-    
+
     .mechero-cabeza {
       position: absolute;
       left: 33%;
@@ -157,7 +176,7 @@
       border-radius: 50%;
       z-index: 3;
     }
-    
+
     .llama {
       position: absolute;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
@@ -165,14 +184,14 @@
       transform-origin: center bottom;
       z-index: 4;
     }
-    
+
     .contaminante {
       position: absolute;
       border-radius: 50%;
       background: radial-gradient(ellipse at center, rgba(100, 100, 100, 0.8) 0%, rgba(100, 100, 100, 0.3) 60%, rgba(100, 100, 100, 0) 100%);
       z-index: 3;
     }
-    
+
     .linea-referencia {
       position: absolute;
       left: 0;
@@ -180,17 +199,18 @@
       border-top: 2px dashed;
       z-index: 10;
     }
-    
+
     .panel-info {
       position: absolute;
-      background-color: white;
+      background-color: #fff;
       border-radius: 4px;
       padding: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       z-index: 20;
       font-size: 12px;
+      color: #374151;
     }
-    
+
     .circulo-distancia {
       position: absolute;
       top: 50%;
@@ -200,13 +220,14 @@
       transform: translate(-50%, -50%);
       z-index: 1;
     }
-    
+
     .etiqueta-distancia {
       position: absolute;
       font-size: 12px;
       font-weight: 600;
+      color: #374151;
     }
-    
+
     .area-dispersion {
       position: absolute;
       top: 50%;
@@ -214,7 +235,7 @@
       border-radius: 50%;
       z-index: 2;
     }
-    
+
     .mechero-central {
       position: absolute;
       top: 50%;
@@ -227,7 +248,7 @@
       transform: translate(-50%, -50%);
       z-index: 10;
     }
-    
+
     .rosa-vientos {
       position: absolute;
       top: 10px;
@@ -239,43 +260,37 @@
       padding: 5px;
       z-index: 5;
     }
-    
-    .direccion-n {
+
+    .direccion-n,
+    .direccion-e,
+    .direccion-s,
+    .direccion-o {
       position: absolute;
+      font-weight: bold;
+      color: #1E40AF;
+    }
+
+    .direccion-n {
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      font-weight: bold;
-      color: #1E40AF;
     }
-    
     .direccion-e {
-      position: absolute;
       top: 50%;
       right: 0;
       transform: translateY(-50%);
-      font-weight: bold;
-      color: #1E40AF;
     }
-    
     .direccion-s {
-      position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      font-weight: bold;
-      color: #1E40AF;
     }
-    
     .direccion-o {
-      position: absolute;
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      font-weight: bold;
-      color: #1E40AF;
     }
-    
+
     .flecha-viento {
       position: absolute;
       top: 50%;
@@ -283,10 +298,10 @@
       width: 50px;
       height: 2px;
       background-color: #3B82F6;
-      transform-origin: left center;
+      transform-origin: center center;
       z-index: 6;
     }
-    
+
     .flecha-punta {
       position: absolute;
       right: -1px;
@@ -297,57 +312,307 @@
       border-bottom: 4px solid transparent;
       border-left: 8px solid #3B82F6;
     }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin: 30px auto 20px auto;
+      opacity: 0.8;
+    }
+
+    /* ===== Nueva clase para colocar resultados al final en 3 columnas ===== */
+    .resultados-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
   </style>
 </head>
+
 <body>
+  <!-- ============ CONTENIDO PRINCIPAL ============ -->
   <div class="container">
     <h1>Simulación de Quema de Gas en Pozo Petrolero</h1>
-    
+
+    <!-- 
+      Mantenemos la .grid original para la parte visual,
+      pero extraemos la sección de "Resultados de Emisión"
+      para colocarla abajo. 
+    -->
     <div class="grid">
+      <!-- ===== TARJETA DE CONTROLES ===== -->
       <div class="card">
         <h2>Controles de Simulación</h2>
-        
         <div class="controls">
           <div class="control-group">
-            <label for="caudal-gas">Caudal de Gas: <span id="caudal-gas-value">500,000</span> ft³/día</label>
-            <input type="range" id="caudal-gas" min="10000" max="2000000" step="10000" value="500000">
+            <label for="caudal-gas">
+              Caudal de Gas: <span id="caudal-gas-value">500,000</span> ft³/día
+            </label>
+            <input
+              type="range"
+              id="caudal-gas"
+              min="10000"
+              max="2000000"
+              step="10000"
+              value="500000"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="velocidad-viento">Velocidad del Viento: <span id="velocidad-viento-value">10</span> km/h</label>
-            <input type="range" id="velocidad-viento" min="0" max="50" step="1" value="10">
+            <label for="velocidad-viento">
+              Velocidad del Viento: <span id="velocidad-viento-value">10</span> km/h
+            </label>
+            <input
+              type="range"
+              id="velocidad-viento"
+              min="0"
+              max="50"
+              step="1"
+              value="10"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="direccion-viento">Dirección del Viento: <span id="direccion-viento-value">45°</span> (<span id="direccion-viento-cardinal">NE</span>)</label>
-            <input type="range" id="direccion-viento" min="0" max="359" step="5" value="45">
+            <label for="direccion-viento">
+              Dirección del Viento: <span id="direccion-viento-value">45°</span>
+              (<span id="direccion-viento-cardinal">NE</span>)
+            </label>
+            <input
+              type="range"
+              id="direccion-viento"
+              min="0"
+              max="359"
+              step="5"
+              value="45"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="temperatura-ambiente">Temperatura Ambiente: <span id="temperatura-ambiente-value">25</span> °C</label>
-            <input type="range" id="temperatura-ambiente" min="-20" max="50" step="1" value="25">
+            <label for="temperatura-ambiente">
+              Temperatura Ambiente: <span id="temperatura-ambiente-value">25</span> °C
+            </label>
+            <input
+              type="range"
+              id="temperatura-ambiente"
+              min="-20"
+              max="50"
+              step="1"
+              value="25"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="humedad-relativa">Humedad Relativa: <span id="humedad-relativa-value">60</span> %</label>
-            <input type="range" id="humedad-relativa" min="0" max="100" step="1" value="60">
+            <label for="humedad-relativa">
+              Humedad Relativa: <span id="humedad-relativa-value">60</span> %
+            </label>
+            <input
+              type="range"
+              id="humedad-relativa"
+              min="0"
+              max="100"
+              step="1"
+              value="60"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="altura-mechero">Altura del Mechero: <span id="altura-mechero-value">15</span> m</label>
-            <input type="range" id="altura-mechero" min="5" max="30" step="1" value="15">
+            <label for="altura-mechero">
+              Altura del Mechero: <span id="altura-mechero-value">15</span> m
+            </label>
+            <input
+              type="range"
+              id="altura-mechero"
+              min="5"
+              max="30"
+              step="1"
+              value="15"
+            >
           </div>
-          
+
           <div class="control-group">
-            <label for="diametro-mechero">Diámetro del Mechero: <span id="diametro-mechero-value">0.5</span> m</label>
-            <input type="range" id="diametro-mechero" min="0.1" max="2" step="0.1" value="0.5">
+            <label for="diametro-mechero">
+              Diámetro del Mechero: <span id="diametro-mechero-value">0.5</span> m
+            </label>
+            <input
+              type="range"
+              id="diametro-mechero"
+              min="0.1"
+              max="2"
+              step="0.1"
+              value="0.5"
+            >
           </div>
         </div>
       </div>
-      
+  </div> <!-- Fin de .grid -->
+
+
+      <!-- ===== TARJETA DE VISUALIZACIÓN LATERAL ===== -->
       <div class="card">
-        <h2>Resultados de Emisión de Contaminantes</h2>
-        
+        <h2>Visualización de la Simulación - Vista Lateral</h2>
+        <div class="visualization vista-lateral" id="vista-lateral">
+          <div class="suelo"></div>
+          <div class="mechero" id="mechero-torre"></div>
+          <div class="mechero-cabeza" id="mechero-cabeza"></div>
+          <div id="llamas-container"></div>
+          <div id="contaminantes-container"></div>
+
+          <div
+            class="linea-referencia"
+            id="linea-mechero"
+            style="border-color: #dc2626;"
+          ></div>
+          <div
+            class="linea-referencia"
+            id="linea-llama"
+            style="border-color: #ea580c;"
+          ></div>
+
+          <div
+            class="panel-info"
+            style="top: 10px; right: 10px;"
+          >
+            <div class="info-box-title">ALTURAS</div>
+            <div>
+              <span style="font-weight: 600;">Torre:</span>
+              <span id="info-altura-mechero">15</span> m
+            </div>
+            <div>
+              <span style="font-weight: 600;">Llama:</span>
+              <span id="info-altura-llama">18.97</span> m
+            </div>
+            <div>
+              <span style="font-weight: 600;">Cont. max:</span>
+              <span id="info-altura-cont">28.46</span> m
+            </div>
+          </div>
+
+          <div
+            class="panel-info"
+            style="top: 10px; left: 10px;"
+          >
+            <div class="info-box-title">VIENTO</div>
+            <div>
+              <span style="font-weight: 600;">Velocidad:</span>
+              <span id="info-velocidad">10</span> km/h
+            </div>
+            <div>
+              <span style="font-weight: 600;">Dirección:</span>
+              <span id="info-direccion">45</span>°
+            </div>
+            <div>
+              <span style="font-weight: 600;">Inclinación:</span>
+              <span id="info-inclinacion">15.0</span>°
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p class="info-box-title">Detalles de la vista lateral:</p>
+          <p>
+            La altura de la llama varía con el caudal y diámetro del mechero.
+            Los contaminantes se dispersan siguiendo la dirección del viento con
+            una inclinación proporcional a su velocidad.
+          </p>
+        </div>
+      </div>
+
+
+
+    <!-- ===== TARJETA DE VISUALIZACIÓN SUPERIOR ===== -->
+    <div class="card">
+      <h2>Visualización de la Simulación - Vista Superior</h2>
+      <div class="visualization vista-superior" id="vista-superior">
+        <div
+          class="circulo-distancia"
+          style="width: 200px; height: 200px;"
+        ></div>
+        <div
+          class="circulo-distancia"
+          style="width: 400px; height: 400px;"
+        ></div>
+        <div
+          class="circulo-distancia"
+          style="width: 600px; height: 600px;"
+        ></div>
+
+        <div
+          class="etiqueta-distancia"
+          style="top: 50%; left: 50%; transform: translate(-50%, 100px);"
+        >
+          100m
+        </div>
+        <div
+          class="etiqueta-distancia"
+          style="top: 50%; left: 50%; transform: translate(-50%, 200px);"
+        >
+          200m
+        </div>
+        <div
+          class="etiqueta-distancia"
+          style="top: 50%; left: 50%; transform: translate(-50%, 300px);"
+        >
+          300m
+        </div>
+
+        <div class="area-dispersion" id="area-dispersion"></div>
+        <div class="mechero-central"></div>
+
+        <div class="rosa-vientos">
+          <div class="direccion-n">N</div>
+          <div class="direccion-e">E</div>
+          <div class="direccion-s">S</div>
+          <div class="direccion-o">O</div>
+
+          <div class="flecha-viento" id="flecha-viento">
+            <div class="flecha-punta"></div>
+          </div>
+        </div>
+
+        <div
+          class="panel-info"
+          style="top: 10px; left: 10px;"
+        >
+          <div class="info-box-title">ÁREA AFECTADA</div>
+          <div>
+            <span style="font-weight: 600;">Alcance:</span>
+            ~<span id="info-alcance">125</span> m
+          </div>
+          <div>
+            <span style="font-weight: 600;">Área:</span>
+            ~<span id="info-area">4</span> ha
+          </div>
+          <div>
+            <span style="font-weight: 600;">Dirección:</span>
+            <span id="info-dir-viento">45</span>°
+          </div>
+          <div>
+            <span style="font-weight: 600;">Caudal:</span>
+            <span id="info-caudal">500,000.00</span> ft³/día
+          </div>
+        </div>
+      </div>
+
+
+      <div class="info-box">
+        <p class="info-box-title">Detalles de la vista superior:</p>
+        <p>
+          Los círculos muestran distancias desde la fuente. El área coloreada
+          representa la dispersión de contaminantes, cuyo tamaño depende del
+          caudal y la dirección del viento.
+        </p>
+      </div>
+    </div>
+  
+
+    <!-- ===== AHORA MOVEMOS LA SECCIÓN DE RESULTADOS HASTA AQUÍ, EN 3 COLUMNAS ===== -->
+    <div class="card">
+      <h2>Resultados de Emisión de Contaminantes</h2>
+      <!-- Contenedor en 3 columnas -->
+      <div class="resultados-grid">
+        <!-- Columna 1: Emisiones Diarias -->
         <div>
           <h3>Emisiones Diarias (kg/día)</h3>
           <ul id="emisiones-diarias">
@@ -360,7 +625,8 @@
             <li>Compuestos Orgánicos Volátiles: <span id="voc-diario">200.00</span></li>
           </ul>
         </div>
-        
+
+        <!-- Columna 2: Emisiones Anuales -->
         <div>
           <h3>Emisiones Anuales (kg/año)</h3>
           <ul id="emisiones-anuales">
@@ -373,7 +639,8 @@
             <li>Compuestos Orgánicos Volátiles: <span id="voc-anual">73,000.00</span></li>
           </ul>
         </div>
-        
+
+        <!-- Columna 3: Características de la Llama -->
         <div>
           <h3>Características de la Llama</h3>
           <ul>
@@ -384,104 +651,16 @@
         </div>
       </div>
     </div>
-    
-    <div class="card">
-      <h2>Visualización de la Simulación - Vista Lateral</h2>
-      
-      <div class="visualization vista-lateral" id="vista-lateral">
-        <!-- Suelo -->
-        <div class="suelo"></div>
-        
-        <!-- Torre de mechero (se ajusta dinámicamente) -->
-        <div class="mechero" id="mechero-torre"></div>
-        
-        <!-- Cabeza del mechero (se ajusta dinámicamente) -->
-        <div class="mechero-cabeza" id="mechero-cabeza"></div>
-        
-        <!-- Llamas (se generan dinámicamente) -->
-        <div id="llamas-container"></div>
-        
-        <!-- Contaminantes (se generan dinámicamente) -->
-        <div id="contaminantes-container"></div>
-        
-        <!-- Líneas de referencia -->
-        <div class="linea-referencia" id="linea-mechero" style="border-color: #dc2626;"></div>
-        <div class="linea-referencia" id="linea-llama" style="border-color: #ea580c;"></div>
-        
-        <!-- Panel informativo -->
-        <div class="panel-info" style="top: 10px; right: 10px;">
-          <div class="info-box-title">ALTURAS</div>
-          <div><span style="font-weight: 600;">Torre:</span> <span id="info-altura-mechero">15</span> m</div>
-          <div><span style="font-weight: 600;">Llama:</span> <span id="info-altura-llama">18.97</span> m</div>
-          <div><span style="font-weight: 600;">Cont. max:</span> <span id="info-altura-cont">28.46</span> m</div>
-        </div>
-        
-        <div class="panel-info" style="top: 10px; left: 10px;">
-          <div class="info-box-title">VIENTO</div>
-          <div><span style="font-weight: 600;">Velocidad:</span> <span id="info-velocidad">10</span> km/h</div>
-          <div><span style="font-weight: 600;">Dirección:</span> <span id="info-direccion">45</span>°</div>
-          <div><span style="font-weight: 600;">Inclinación:</span> <span id="info-inclinacion">15.0</span>°</div>
-        </div>
-      </div>
-      
-      <div class="info-box">
-        <p class="info-box-title">Detalles de la vista lateral:</p>
-        <p>La altura de la llama varía con el caudal y diámetro del mechero. Los contaminantes se dispersan siguiendo la dirección del viento con una inclinación proporcional a su velocidad.</p>
-      </div>
-    </div>
-    
-    <div class="card">
-      <h2>Visualización de la Simulación - Vista Superior</h2>
-      
-      <div class="visualization vista-superior" id="vista-superior">
-        <!-- Círculos concéntricos -->
-        <div class="circulo-distancia" style="width: 200px; height: 200px;"></div>
-        <div class="circulo-distancia" style="width: 400px; height: 400px;"></div>
-        <div class="circulo-distancia" style="width: 600px; height: 600px;"></div>
-        
-        <!-- Etiquetas de distancia -->
-        <div class="etiqueta-distancia" style="top: 50%; left: 50%; transform: translate(-50%, 100px);">100m</div>
-        <div class="etiqueta-distancia" style="top: 50%; left: 50%; transform: translate(-50%, 200px);">200m</div>
-        <div class="etiqueta-distancia" style="top: 50%; left: 50%; transform: translate(-50%, 300px);">300m</div>
-        
-        <!-- Área de dispersión (se ajusta dinámicamente) -->
-        <div class="area-dispersion" id="area-dispersion"></div>
-        
-        <!-- Mechero central -->
-        <div class="mechero-central"></div>
-        
-        <!-- Rosa de los vientos -->
-        <div class="rosa-vientos">
-          <div class="direccion-n">N</div>
-          <div class="direccion-e">E</div>
-          <div class="direccion-s">S</div>
-          <div class="direccion-o">O</div>
-          
-          <!-- Flecha de dirección del viento (se ajusta dinámicamente) -->
-          <div class="flecha-viento" id="flecha-viento">
-            <div class="flecha-punta"></div>
-          </div>
-        </div>
-        
-        <!-- Panel informativo -->
-        <div class="panel-info" style="top: 10px; left: 10px;">
-          <div class="info-box-title">ÁREA AFECTADA</div>
-          <div><span style="font-weight: 600;">Alcance:</span> ~<span id="info-alcance">125</span> m</div>
-          <div><span style="font-weight: 600;">Área:</span> ~<span id="info-area">4</span> ha</div>
-          <div><span style="font-weight: 600;">Dirección:</span> <span id="info-dir-viento">45</span>°</div>
-          <div><span style="font-weight: 600;">Caudal:</span> <span id="info-caudal">500,000.00</span> ft³/día</div>
-        </div>
-      </div>
-      
-      <div class="info-box">
-        <p class="info-box-title">Detalles de la vista superior:</p>
-        <p>Los círculos muestran distancias desde la fuente. El área coloreada representa la dispersión de contaminantes, cuyo tamaño depende del caudal y forma de la dirección del viento.</p>
-      </div>
-    </div>
-  </div>
+  </div> <!-- Fin del .container -->
 
+  <!-- ===== FOOTER CON DERECHOS RESERVADOS ===== -->
+  <footer class="footer">
+    Derechos reservados Ing. Benito Cabrera R., MBA @2025
+  </footer>
+
+  <!-- ============ JAVASCRIPT DE LA SIMULACIÓN ============ -->
   <script>
-    // Variables globales para los valores
+    /* ===== Variables Globales ===== */
     let caudalGas = 500000;
     let velocidadViento = 10;
     let direccionViento = 45;
@@ -489,18 +668,21 @@
     let humedadRelativa = 60;
     let alturaMechero = 15;
     let diametroMechero = 0.5;
-    
+
     // Función para formatear números
     function formatNumber(number, decimals = 2) {
-      return new Intl.NumberFormat('es-ES', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(number);
+      return new Intl.NumberFormat('es-ES', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      }).format(number);
     }
-    
-    // Función para calcular la altura de la llama
+
+    // Calcula la altura de la llama
     function calcularAlturaLlama() {
       return Math.pow(caudalGas / 50000, 0.4) * 5 * Math.sqrt(diametroMechero);
     }
-    
-    // Función para calcular los contaminantes
+
+    // Calcula contaminantes
     function calcularContaminantes() {
       const contaminantesDiarios = {
         co2: caudalGas * 0.05,
@@ -511,24 +693,21 @@
         metano: caudalGas * 0.0002,
         voc: caudalGas * 0.0004
       };
-      
       const contaminantesAnuales = {};
       for (const key in contaminantesDiarios) {
         contaminantesAnuales[key] = contaminantesDiarios[key] * 365;
       }
-      
       return { contaminantesDiarios, contaminantesAnuales };
     }
-    
-    // Función para obtener la dirección cardinal
+
+    // Obtiene la dirección cardinal
     function obtenerDireccionCardinal(grados) {
       const direcciones = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
       return direcciones[Math.floor(((grados % 360) / 45) % 8)];
     }
-    
-    // Función para actualizar los valores en la interfaz
+
+    // Actualiza valores en la interfaz
     function actualizarValores() {
-      // Actualizar valores de controles
       document.getElementById('caudal-gas-value').textContent = formatNumber(caudalGas, 0);
       document.getElementById('velocidad-viento-value').textContent = velocidadViento;
       document.getElementById('direccion-viento-value').textContent = direccionViento + '°';
@@ -537,18 +716,17 @@
       document.getElementById('humedad-relativa-value').textContent = humedadRelativa;
       document.getElementById('altura-mechero-value').textContent = alturaMechero;
       document.getElementById('diametro-mechero-value').textContent = diametroMechero;
-      
-      // Calcular altura de llama
+
+      // Altura llama
       const alturaLlama = calcularAlturaLlama();
       document.getElementById('altura-llama').textContent = formatNumber(alturaLlama);
-      
-      // Calcular inclinación
+
+      // Inclinación
       const inclinacion = Math.min(80, velocidadViento * 1.5);
       document.getElementById('inclinacion').textContent = formatNumber(inclinacion);
-      
-      // Calcular y actualizar contaminantes
+
+      // Contaminantes
       const { contaminantesDiarios, contaminantesAnuales } = calcularContaminantes();
-      
       document.getElementById('co2-diario').textContent = formatNumber(contaminantesDiarios.co2);
       document.getElementById('co-diario').textContent = formatNumber(contaminantesDiarios.co);
       document.getElementById('nox-diario').textContent = formatNumber(contaminantesDiarios.nox);
@@ -556,7 +734,7 @@
       document.getElementById('particulado-diario').textContent = formatNumber(contaminantesDiarios.particulado);
       document.getElementById('metano-diario').textContent = formatNumber(contaminantesDiarios.metano);
       document.getElementById('voc-diario').textContent = formatNumber(contaminantesDiarios.voc);
-      
+
       document.getElementById('co2-anual').textContent = formatNumber(contaminantesAnuales.co2);
       document.getElementById('co-anual').textContent = formatNumber(contaminantesAnuales.co);
       document.getElementById('nox-anual').textContent = formatNumber(contaminantesAnuales.nox);
@@ -564,81 +742,71 @@
       document.getElementById('particulado-anual').textContent = formatNumber(contaminantesAnuales.particulado);
       document.getElementById('metano-anual').textContent = formatNumber(contaminantesAnuales.metano);
       document.getElementById('voc-anual').textContent = formatNumber(contaminantesAnuales.voc);
-      
-      // Actualizar volumen de gas
+
+      // Volumen gas
       document.getElementById('volumen-gas').textContent = formatNumber(caudalGas);
-      
-      // Actualizar visualización lateral
+
+      // Actualiza vistas
       actualizarVistaLateral(alturaLlama);
-      
-      // Actualizar visualización superior
       actualizarVistaSuperior();
     }
-    
-    // Función para actualizar la vista lateral
+
+    // Actualiza la vista lateral
     function actualizarVistaLateral(alturaLlama) {
-      // Actualizar mechero
       const mecheroTorre = document.getElementById('mechero-torre');
       mecheroTorre.style.height = `${alturaMechero * 5}px`;
       mecheroTorre.style.bottom = '100px';
-      
-      // Actualizar cabeza del mechero
+
       const mecheroCabeza = document.getElementById('mechero-cabeza');
       mecheroCabeza.style.width = `${diametroMechero * 20}px`;
       mecheroCabeza.style.bottom = `${100 + alturaMechero * 5 - 10}px`;
       mecheroCabeza.style.marginLeft = `-${(diametroMechero * 20 - 40) / 2}px`;
-      
-      // Actualizar líneas de referencia
+
       document.getElementById('linea-mechero').style.bottom = `${100 + alturaMechero * 5}px`;
       document.getElementById('linea-llama').style.bottom = `${100 + alturaMechero * 5 + alturaLlama * 5}px`;
-      
-      // Generar llamas
+
+      // Llamas
       const llamasContainer = document.getElementById('llamas-container');
       llamasContainer.innerHTML = '';
-      
       const numLlamas = 5;
       for (let i = 0; i < numLlamas; i++) {
         const variacion = Math.sin(Date.now() / 100 + i * 10) * 10;
         const anchura = 20 + velocidadViento + variacion + (diametroMechero * 10);
-        const altura = (alturaLlama * 8) + variacion;
+        const alto = (alturaLlama * 8) + variacion;
         const opacity = 0.7 + Math.sin(Date.now() / 100 + i * 5) * 0.2;
-        
+
         const llama = document.createElement('div');
         llama.className = 'llama';
-        llama.style.left = `calc(33% - ${anchura/4}px)`;
+        llama.style.left = `calc(33% - ${anchura / 4}px)`;
         llama.style.bottom = `${100 + alturaMechero * 5}px`;
         llama.style.width = `${anchura}px`;
-        llama.style.height = `${altura}px`;
-        llama.style.transform = `rotate(${velocidadViento * 1.5 + variacion/2}deg)`;
+        llama.style.height = `${alto}px`;
+        llama.style.transform = `rotate(${velocidadViento * 1.5 + variacion / 2}deg)`;
         llama.style.opacity = opacity;
-        
         llamasContainer.appendChild(llama);
       }
-      
-      // Generar nubes de contaminantes
+
+      // Contaminantes
       const contaminantesContainer = document.getElementById('contaminantes-container');
       contaminantesContainer.innerHTML = '';
-      
       const numNubes = 8;
       for (let i = 0; i < numNubes; i++) {
         const distancia = i * velocidadViento * 3;
         const altura = i * alturaLlama * (0.3 + Math.random() * 0.2);
-        const tamaño = 50 + (caudalGas / 20000) * (1 - i/numNubes);
+        const tamaño = 50 + (caudalGas / 20000) * (1 - i / numNubes);
         const opacity = 0.8 - (i / numNubes) * 0.5;
-        
+
         const nube = document.createElement('div');
         nube.className = 'contaminante';
         nube.style.left = `calc(33% + ${distancia}px)`;
         nube.style.bottom = `${100 + alturaMechero * 5 + altura}px`;
         nube.style.width = `${tamaño}px`;
         nube.style.height = `${tamaño * 0.7}px`;
-        nube.style.transform = `rotate(${velocidadViento/2}deg)`;
+        nube.style.transform = `rotate(${velocidadViento / 2}deg)`;
         nube.style.opacity = opacity;
-        
         contaminantesContainer.appendChild(nube);
       }
-      
-      // Actualizar información en los paneles
+
       document.getElementById('info-altura-mechero').textContent = alturaMechero;
       document.getElementById('info-altura-llama').textContent = formatNumber(alturaLlama);
       document.getElementById('info-altura-cont').textContent = formatNumber(alturaLlama * 1.5);
@@ -646,77 +814,66 @@
       document.getElementById('info-direccion').textContent = direccionViento;
       document.getElementById('info-inclinacion').textContent = formatNumber(Math.min(80, velocidadViento * 1.5));
     }
-    
-    // Función para actualizar la vista superior
+
+    // Actualiza la vista superior
     function actualizarVistaSuperior() {
-      // Actualizar flecha de dirección del viento
       const flechaViento = document.getElementById('flecha-viento');
       flechaViento.style.transform = `translate(-50%, -50%) rotate(${direccionViento}deg)`;
-      
-      // Actualizar área de dispersión
+
       const areaDispersion = document.getElementById('area-dispersion');
       const radioDispersion = Math.min(500, caudalGas / 4000);
-      
       areaDispersion.style.width = `${radioDispersion}px`;
       areaDispersion.style.height = `${radioDispersion * 0.8}px`;
       areaDispersion.style.background = 'radial-gradient(ellipse at 20% 50%, rgba(200,50,0,0.7) 0%, rgba(200,100,0,0.4) 40%, rgba(100,150,200,0.1) 80%, rgba(100,150,200,0) 100%)';
       areaDispersion.style.transform = `translate(-20%, -50%) rotate(${direccionViento}deg)`;
       areaDispersion.style.opacity = '0.7';
-      
-      // Actualizar información en el panel
+
       const alcance = Math.round(Math.min(300, caudalGas / 4000));
       const area = Math.round(Math.PI * Math.pow(alcance * 0.7, 2) / 10000);
-      
+
       document.getElementById('info-alcance').textContent = alcance;
       document.getElementById('info-area').textContent = area;
       document.getElementById('info-dir-viento').textContent = direccionViento;
       document.getElementById('info-caudal').textContent = formatNumber(caudalGas);
     }
-    
-    // Configurar eventos para los controles
+
+    // Eventos de los sliders
     document.getElementById('caudal-gas').addEventListener('input', function() {
       caudalGas = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('velocidad-viento').addEventListener('input', function() {
       velocidadViento = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('direccion-viento').addEventListener('input', function() {
       direccionViento = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('temperatura-ambiente').addEventListener('input', function() {
       temperaturaAmbiente = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('humedad-relativa').addEventListener('input', function() {
       humedadRelativa = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('altura-mechero').addEventListener('input', function() {
       alturaMechero = Number(this.value);
       actualizarValores();
     });
-    
     document.getElementById('diametro-mechero').addEventListener('input', function() {
       diametroMechero = Number(this.value);
       actualizarValores();
     });
-    
-    // Función para animar
+
+    // Animación continua
     function animar() {
       actualizarValores();
       requestAnimationFrame(animar);
     }
-    
-    // Iniciar
     animar();
   </script>
 </body>
 </html>
+
